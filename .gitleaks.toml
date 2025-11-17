@@ -1,0 +1,20 @@
+useDefault = true
+
+[[rules]]
+
+id = "custom-sensitive-data"
+description = "Sensitive data"
+regex = '''(api_key|password|secret|token)'''
+
+[rules.allowlist]
+paths = [
+   
+    "config/test_data/fake_token.txt"
+]
+
+[allowlist]
+paths = [
+
+    ".*sample_config\\.ini",
+    ".*template_config\\.yaml"
+]

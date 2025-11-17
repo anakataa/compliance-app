@@ -1,0 +1,63 @@
+name: Security CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  
+
+      
+      - name: Install dependencies
+        run: npm install
+
+      #  Установка Gitleaks
+      - name: Install Gitleaks
+        run: |
+          curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.29.0/gitleaks-linux-amd64.tar.gz | tar xz
+          sudo mv gitleaks /usr/local/bin
+
+      
+      - name: Run Gitleaks
+        run: gitleaks detect --source=. --no-git --report-format json --report-path artifacts/gitleaks.json
+
+      #  Установка Trivy
+      - name: Install Trivy
+        run: |
+          curl -sSL https://github.com/aquasecurity/trivy/releases/download/v0.27.0/trivy_0.27.0_Linux-x86_64.tar.gz | tar xz
+          sudo mv trivy /usr/local/bin
+
+      
+      - name: Run Trivy Image Scan
+        run: trivy image --format json -o artifacts/trivy-image.json compliance-app:latest
+
+      
+      - name: Run Trivy FS Scan
+        run: trivy fs --format json -o artifacts/trivy-fs.json .
+
+      
+      - name: Generate compliance report
+        run: node scripts/generate-report.js
+
+      # Шаг 10: Вывод отчета как артефакт
+      - name: Upload compliance report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: compliance-report
+          path: artifacts/compliance-report.md
