@@ -1,4 +1,4 @@
-# Compliance App
+# Compliance App (Test Task)
 
 ## Project Overview
 
@@ -145,3 +145,29 @@ Report Structure
 - **Status: The result of the check (PASS or FAIL).**
 
 - **Details: A brief explanation of what was checked.**
+
+Example:
+
+![Initializing the CA](./screenshots/Screenshot_10.png) 
+
+Overall Status: The overall result of the checks, either PASS if all checks passed, or NOT PASS if any check failed.
+
+
+## Example Commands for Running Tools:
+
+**1. Gitleaks:**
+```bash
+gitleaks detect --source=./ --no-git
+```
+**2. Trivy (Filesystem Scan):**
+```bash
+trivy fs . --format json -o artifacts/trivy-fs.json
+```
+**3. Trivy (Image Scan):**
+```bash
+trivy image compliance-app --format json -o artifacts/trivy-image.json
+```
+**4. Syft:**
+```bash
+syft compliance-app -o json > artifacts/sbom.json
+```
