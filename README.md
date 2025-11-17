@@ -23,10 +23,10 @@ This project provides a security pipeline for container images. It includes Dock
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/anakataa/compliance-app.git
-   cd compliance-app
-
+```bash
+git clone https://github.com/anakataa/compliance-app.git
+cd compliance-app
+```
 2. **Install project dependencies:**
    
 ```bash
