@@ -55,7 +55,7 @@ jobs:
       - name: Generate compliance report
         run: node scripts/generate-report.js
 
-      # Шаг 10: Вывод отчета как артефакт
+      
       - name: Upload compliance report as artifact
         uses: actions/upload-artifact@v2
         with:
